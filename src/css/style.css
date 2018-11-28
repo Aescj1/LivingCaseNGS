@@ -1,11 +1,7 @@
-
-.main{
-    overflow-y: unset !important;
-
-}
-body {font-family: Arial, Helvetica, sans-serif;}
-form {border: 3px solid #f1f1f1;}
-input[type=text], input[type=password] {
+/*Login View*/
+.loginBody {font-family: Arial, Helvetica, sans-serif;}
+.loginForm {border: 3px solid #f1f1f1;}
+.loginInput[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -13,45 +9,65 @@ input[type=text], input[type=password] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-button:hover {
-    opacity: 0.8;
-}
-.cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #f44336;
-    float:left;
-}
-.imgcontainer {
+
+.Loginimgcontainer {
     text-align: center;
     margin: 24px 0 12px 0;
 }
-img.avatar {
+.Loginavatar {
     width: 70%;
     }
-.container {
+.LoginBackgroundcontainer {
     padding: 16px;
 }
-span.psw {
-    float: right;
-    padding-top: 16px;
+
+
+/*Layout View*/
+.header-logo{
+    width: 6%;
+    float: left;
+    margin-right: 10px;
 }
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
+.header-text{
+display:inline;
+font-size:larger;
 }
+.board-background{
+  background-image: url("../assets/background3.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.vue-holder{
+  display:block;
+}
+/*sets the size of the table so that there is a inframe scrollbar*/
+.table{
+max-height:490px;
+overflow:auto;
+}
+/*removes the scrollbar of the main frame*/
+.main{
+    overflow-y: unset !important;
+}
+
+
+
+/* Table CSS*/
+.dataSet{
+    max-height: 50px;
+    min-width: 130px;
+  }
+
+/* Tableframe CSS*/
+.table{
+    overflow:auto;
+    }
+
+
+
+/*
+.main{
+    overflow-y: unset !important;
+
+}
+*/

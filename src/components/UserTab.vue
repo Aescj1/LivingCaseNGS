@@ -17,7 +17,23 @@
 
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
-
+                <v-list-tile @click="changeTheme">
+          <v-list-tile-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Change Theme</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="logout()">
+          <v-list-tile-action>
+            <v-icon>settings</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!--
         <v-list-tile
           v-for="item in items"
           :key="item.title"
@@ -29,21 +45,30 @@
           <v-list-tile-content>
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
-        </v-list-tile>
+        </v-list-tile>!-->
       </v-list>
   </v-card>
 </template>
 
 <script>
+import {bus} from '../main.js'
+
   export default {
-    data () {
-      return {
-        items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' },
-          { title: 'Logout', icon: 'power_settings_new'}
-        ],
+      props:['dark'],
+
+    data: ()=>({
+        dark:true,
       }
+    ),
+    methods:{
+      logout(){
+                  this.$router.push('/')
+      },
+      changeTheme(){
+        this.dark = !this.dark
+        bus.$emit('themeWasChanged',this.dark);
+
+      },
     }
   }
 </script>

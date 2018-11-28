@@ -1,5 +1,6 @@
 <template>
-  <v-app id="inspire" dark class="main">
+  
+  <v-app id="inspire" class="main">
     <v-navigation-drawer
       v-model="drawer"
       clipped
@@ -13,16 +14,6 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title><img class="header-logo" src="../assets/Red_Maple.png"> <p class="header-text">Red Maple</p></v-toolbar-title>
     </v-toolbar>
-
-    <!-- SOLUTION 1
-    <v-content class="board-background">
-      <v-container fluid fill-height class="vue-holder" >
-        <Table class="table"/>
-        <v-layout fill-height="board-background"></v-layout>
-      </v-container>
-    </v-content> !-->
-
-
     <v-content class="board-background">
       <v-container fluid  >
         <v-layout row wrap>
@@ -37,13 +28,13 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>  !-->
+    </v-content> 
 
 
     <v-footer app fixed>
       <span>&copy; 2018 - Universitätsspital Basel NGS Webportal </span>
     </v-footer>
-  </v-app>
+ </v-app>
 </template>
 
 <script>
@@ -51,6 +42,7 @@ import UserTab from './UserTab.vue'
 import TableDate from './TableDate.vue'
 import TableFrame from './TableFrame.vue'
 import NgsFormular from './NgsFormular.vue'
+
 
 
   export default {
@@ -61,6 +53,7 @@ import NgsFormular from './NgsFormular.vue'
     TableFrame,
     NgsFormular,
   },
+
     data: () => ({
       drawer: null,
       state: 0,

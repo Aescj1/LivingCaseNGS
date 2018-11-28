@@ -45,6 +45,7 @@ import {bus} from '../main.js'
      dialog: false,
       tab: null,
       search:'',
+      dark:true,
       items:[
         'Sequenziert','Lauf vorbereiten','DNA zum Auffüllen','Geplant'
       ],
