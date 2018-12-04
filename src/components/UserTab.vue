@@ -57,7 +57,6 @@ import {bus} from '../main.js'
       props:['dark'],
 
     data: ()=>({
-        dark:true,
       }
     ),
     methods:{

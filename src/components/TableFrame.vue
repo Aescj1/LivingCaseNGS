@@ -18,7 +18,7 @@
         {{item}}
         </v-tab>
       </v-tabs>
-      <v-text-field style="width:70%" :search='search' append-icon="search" label="Search" single-line></v-text-field>
+      <v-text-field style="width:70%" v-model="search" @input="searchIt()" append-icon="search" label="Search" single-line></v-text-field>
           <v-spacer></v-spacer>
 
       <v-btn @click="openMyDialog()">New Dataset</v-btn>
@@ -59,7 +59,17 @@ import {bus} from '../main.js'
       openMyDialog () {
         bus.$emit('openFormular', true) // emit the event to the bus
       },
-    }
+      searchIt(){
+        bus.$emit('searchChanged', this.search)
+      }
+
+    },/*
+    watch:{
+      search: function(){
+          bus.$emit('searchChanged', this.search)
+        
+      }
+    },*/
    
   }
 

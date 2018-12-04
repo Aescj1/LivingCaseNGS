@@ -4,10 +4,48 @@
     :items="patients"
     class="elevation-1"
     hide-actions
+    item-key="bactNr"
+    :search="search"
+
+
   >
 <template slot="items" slot-scope="props">
+   <tr @click="props.expanded = !props.expanded">
         <!--The v-if statements checks the state for the tabs and sets the information accordingly !-->
-        <td class="text-xs-left">{{ props.item.bactNr }}</td>
+                <td class="justify-center layout px-0">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item)"
+          >
+            edit
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(props.item)"
+          >
+            delete
+          </v-icon>
+        </td>
+        <td class="text-xs-left">
+        <v-edit-dialog
+            :return-value.sync="props.item.bactNr"
+            lazy
+            @save="save"
+            @cancel="cancel"
+            @open="open"
+            @close="close"
+          > {{ props.item.bactNr }}
+                      <v-text-field
+              slot="input"
+              v-model="props.item.bactNr"
+              :rules="[max25chars]"
+              label="Edit"
+              single-line
+              counter
+            ></v-text-field>
+                     </v-edit-dialog>
+</td> 
         <td class="text-xs-center">{{ props.item.altId }}</td>
         <td class="text-xs-center">{{ props.item.pathogen }}</td>
         <td class="text-xs-center">{{ props.item.patName }}</td>
@@ -32,21 +70,13 @@
         <td v-if="state<=0" class="text-xs-center">{{ props.item.seqVisum }}</td>
         <td v-if="state<=0" class="text-xs-center">{{ props.item.qualityVisum }}</td>
         <td v-if="state<=0" class="text-xs-center">{{ props.item.pubID }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
-        </td>
+
+      </tr>
+      </template>
+      <template slot="expand" slot-scope="props">
+      <v-card class="text-xs-center" flat>
+        <v-card-text  style="background-color:grey"><b>Current BactNr.: </b>{{props.item.bactNr}} <b>| Current NGS Project:</b> {{props.item.ngsProject}}</v-card-text>
+      </v-card>
     </template>
   </v-data-table>
 </template>
@@ -59,9 +89,9 @@ import {bus} from '../main.js'
       state:Number
     },
     data: () => ({
-      dialog: false,
       pagination: {},
       headers: [
+        { property: 3, text: ' Actions ', value: '' , sortable:false},
         { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr'},
         { property: 3, text: 'Alternative ID', value: 'altId' },
         { property: 3,text: 'Pathogen', value: 'pathogen' },
@@ -88,7 +118,7 @@ import {bus} from '../main.js'
         { property: 0,text: 'Information alte Liste', value: 'infOldList' },
         { property: 0,text: 'Public identifier', value: 'pubID' },
       ],
-      /*search:this.search,*/
+      search:'',
       tabs: null,
     patients: [],
       editedIndex: -1,
@@ -159,21 +189,34 @@ import {bus} from '../main.js'
 
         return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
       }
-    }, watch: {
-      dialog (val) {
-        val || this.close()
-      }
-    },
+    }, 
 
     created () {
-      this.initialize()
+            this.initialize()
+      bus.$on('newPatientCreated', (data) =>{
+      this.editedPatient = data;
+      this.patients.push(this.editedPatient)
+      
+      });
+      bus.$on('patientHasChanged', (data) =>{
+      this.editedPatient = data;
+
+      });
+      bus.$on('editedIndex', (data) =>{
+      this.editedIndex = data;
+      this.patients.splice(this.editedIndex,1,this.editedPatient)
+      });
+      bus.$on('searchChanged', (data) =>{
+      this.search = data;
+      });
     },
+
 
     methods: {
       initialize () {
         this.patients = [
           {
-        bactNr: '',
+        bactNr: '111-231',
         infOldList: '2342342',
         altId: 'ID-001',
         pathogen: 'ecoli',
@@ -186,7 +229,7 @@ import {bus} from '../main.js'
         editing: '16.11.2018',
         material: 'Blut',
         ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
+        dnaPrepDate: '10.11.2018',
         dnaKonz: '34',
         dnaVisum: 'BMA',
         runNr: '00542',
@@ -200,7 +243,7 @@ import {bus} from '../main.js'
         pubID: '00001',
           },
           {
-        bactNr: '100002-18',
+        bactNr: '100003-18',
         infOldList: '2342342',
         altId: 'ID-001',
         pathogen: 'ecoli',
@@ -213,7 +256,7 @@ import {bus} from '../main.js'
         editing: '16.11.2018',
         material: 'Blut',
         ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
+        dnaPrepDate: '11.11.2018',
         dnaKonz: '34',
         dnaVisum: 'BMA',
         runNr: '00542',
@@ -239,7 +282,7 @@ import {bus} from '../main.js'
         editing: '16.11.2018',
         material: 'Blut',
         ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
+        dnaPrepDate: '18.11.2019',
         dnaKonz: '34',
         dnaVisum: 'BMA',
         runNr: '00542',
@@ -252,17 +295,20 @@ import {bus} from '../main.js'
         qualityVisum: 'BMA',
         pubID: '00001',
           },
-       
+                  
         ]
       },
           editItem (item) {
-        /*  ursprünglicher Code der den PatID mitgibt!
+        //ursprünglicher Code der den PatID mitgibt!
         this.editedIndex = this.patients.indexOf(item)
         this.editedPatient = Object.assign({}, item)
-        this.dialog = true */
 
         bus.$emit('openFormular', true) // emit the event to the bus
+        bus.$emit('editedIndex', this.editedIndex)
+        bus.$emit('editedPatient',this.editedPatient)
+
       },
+
 
       deleteItem (item) {
         const index = this.patients.indexOf(item)
@@ -274,6 +320,24 @@ import {bus} from '../main.js'
       accordingly */
       renderHeader(){
         return this.headers.filter(h => (h.property>= this.state))
+      },
+      save () {
+        this.snack = true
+        this.snackColor = 'success'
+        this.snackText = 'Data saved'
+      },
+      cancel () {
+        this.snack = true
+        this.snackColor = 'error'
+        this.snackText = 'Canceled'
+      },
+      open () {
+        this.snack = true
+        this.snackColor = 'info'
+        this.snackText = 'Dialog opened'
+      },
+      close () {
+        console.log('Dialog closed')
       }
     }
   }

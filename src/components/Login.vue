@@ -1,20 +1,24 @@
 <template>
-    <v-content >
+    <v-content class="backgroundholder" >
         <v-container fluid fill-height>
             <v-layout justify-center align-center>
-                <v-flex shrink class="formHolder" >
-                    
-                        <h2 class="text-md-center black--text">Next Generation Sequencing</h2>
-                        <h3 class="text-md-center black--text">Webportal</h3>
-
+                <v-flex shrink class="formHolder elevation-4" >
+                        <div class="text-xs-center">
                         <img class="redMapleHeader" src="../assets/RedMaple_logo.png"/>
-                        <form >
+                        </div>
+                        <hr>
+
+
+                        <form class="bottomLogin">
                         <v-form ref="form" v-model="valid" lazy-validation>
                         <div class="text-xs-center">
+                        <br>
+                        <h2 class="text-md-center black--text">Login</h2>
+                        <br>
+                        <br>
                         <v-text-field class="textFields"
                         v-model="name"
                         :rules="nameRules"
-                        :counter="10"
                         label="Name"
                         light
                         required
@@ -79,7 +83,7 @@
 }
 
 .redMapleHeader{
-   max-width: 50em;
+   max-width: 40em;
     
 }
 .input:not{
@@ -89,6 +93,15 @@
 color:black !important;
 width: 30rem;
 display:inline-block;
+}
+.backgroundholder{
+    background-image: url("../assets/background3.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.bottomLogin{
+    background-color: whitesmoke;
 }
 
 

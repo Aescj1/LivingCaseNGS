@@ -101,11 +101,18 @@
 export default{
 
      created () {
+         bus.$on('editedIndex', (data) =>{
+             this.editedIndex = data;
+         });
+         bus.$on('editedPatient', (data) =>{
+             this.editedPatient = data;
+         });
          bus.$on('openFormular', (data) =>{
              this.dialog = data;
          });
     },
     data:() =>({
+        editedIndex: -1,
         dialog: false,
         editedPatient: {
         bactNr: '',
@@ -145,11 +152,16 @@ export default{
         }, 300)
       },
 
+      // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.patients[this.editedIndex], this.editedPatient)
+          bus.$emit('patientHasChanged',this.editedPatient)
+
+         // Object.assign(this.patients[this.editedIndex], this.editedPatient)
         } else {
-          this.patients.push(this.editedPatient)
+          bus.$emit('newPatientCreated',this.editedPatient)
+
+         // this.patients.push(this.editedPatient)
         }
         this.close()
       }

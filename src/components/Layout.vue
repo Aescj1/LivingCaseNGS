@@ -84,7 +84,7 @@ font-size:larger;
 }
 /*sets the size of the table so that there is a inframe scrollbar*/
 .table{
-max-height:490px;
+max-height:700px;
 overflow:auto;
 }
 /*removes the scrollbar of the main frame*/
