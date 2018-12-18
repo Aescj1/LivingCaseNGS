@@ -12,7 +12,7 @@
 <template slot="items" slot-scope="props">
    <tr @click="props.expanded = !props.expanded">
         <!--The v-if statements checks the state for the tabs and sets the information accordingly !-->
-                <td class="justify-center layout px-0">
+                <td class="justify-center layout px-0" >
           <v-icon
             small
             class="mr-2"
@@ -27,7 +27,7 @@
             delete
           </v-icon>
         </td>
-        <td class="text-xs-left">
+        <td class="text-xs-left" v-if="!headers[1].hide">
         <v-edit-dialog
             :return-value.sync="props.item.bactNr"
             lazy
@@ -45,30 +45,30 @@
             ></v-text-field>
                      </v-edit-dialog>
 </td> 
-        <td class="text-xs-center">{{ props.item.altId }}</td>
-        <td class="text-xs-center">{{ props.item.pathogen }}</td>
-        <td class="text-xs-center">{{ props.item.patName }}</td>
-        <td class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td class="text-xs-center">{{ props.item.entry }}</td>
-        <td class="text-xs-center">{{ props.item.abnahme }}</td>
-        <td class="text-xs-center">{{ props.item.sender }}</td>
-        <td class="text-xs-center">{{ props.item.station }}</td>
-        <td class="text-xs-center">{{ props.item.editing }}</td>
-        <td class="text-xs-center">{{ props.item.material }}</td>
-        <td class="text-xs-center">{{ props.item.ngsProject }}</td>
-        <td v-if="state<=2" class="text-xs-center">{{ props.item.dnaPrepDate }}</td>
-        <td v-if="state<=2" class="text-xs-center">{{ props.item.dnaKonz }}</td>
-        <td v-if="state<=2" class="text-xs-center">{{ props.item.dnaVisum }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.runNr }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.ngsNr }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.libType }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.libDate }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.libVisum }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.seqDate }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.ngsMachine }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.seqVisum }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.qualityVisum }}</td>
-        <td v-if="state<=0" class="text-xs-center">{{ props.item.pubID }}</td>
+        <td v-if="!headers[2].hide" class="text-xs-center">{{ props.item.altId }}</td>
+        <td v-if="!headers[3].hide" class="text-xs-center">{{ props.item.pathogen }}</td>
+        <td v-if="!headers[4].hide" class="text-xs-center">{{ props.item.patName }}</td>
+        <td v-if="!headers[5].hide" class="text-xs-center">{{ props.item.birthdate }}</td>
+        <td v-if="!headers[6].hide" class="text-xs-center">{{ props.item.entry }}</td>
+        <td v-if="!headers[7].hide" class="text-xs-center">{{ props.item.abnahme }}</td>
+        <td v-if="!headers[8].hide" class="text-xs-center">{{ props.item.sender }}</td>
+        <td v-if="!headers[9].hide" class="text-xs-center">{{ props.item.station }}</td>
+        <td v-if="!headers[10].hide" class="text-xs-center">{{ props.item.editing }}</td>
+        <td v-if="!headers[11].hide" class="text-xs-center">{{ props.item.material }}</td>
+        <td v-if="!headers[12].hide" class="text-xs-center">{{ props.item.ngsProject }}</td>
+        <td v-if="(state<=2) && (!headers[13].hide)" class="text-xs-center">{{ props.item.dnaPrepDate }}</td>
+        <td v-if="(state<=2) && (!headers[14].hide)" class="text-xs-center">{{ props.item.dnaKonz }}</td>
+        <td v-if="(state<=2) && (!headers[15].hide)" class="text-xs-center">{{ props.item.dnaVisum }}</td>
+        <td v-if="(state<=0) && (!headers[16].hide)" class="text-xs-center">{{ props.item.runNr }}</td>
+        <td v-if="(state<=0) && (!headers[17].hide)" class="text-xs-center">{{ props.item.ngsNr }}</td>
+        <td v-if="(state<=0) && (!headers[18].hide)" class="text-xs-center">{{ props.item.libType }}</td>
+        <td v-if="(state<=0) && (!headers[19].hide)" class="text-xs-center">{{ props.item.libDate }}</td>
+        <td v-if="(state<=0) && (!headers[20].hide)" class="text-xs-center">{{ props.item.libVisum }}</td>
+        <td v-if="(state<=0) && (!headers[21].hide)" class="text-xs-center">{{ props.item.seqDate }}</td>
+        <td v-if="(state<=0) && (!headers[22].hide)" class="text-xs-center">{{ props.item.ngsMachine }}</td>
+        <td v-if="(state<=0) && (!headers[23].hide)" class="text-xs-center">{{ props.item.seqVisum }}</td>
+        <td v-if="(state<=0) && (!headers[24].hide)" class="text-xs-center">{{ props.item.qualityVisum }}</td>
+        <td v-if="(state<=0) && (!headers[25].hide)" class="text-xs-center">{{ props.item.pubID }}</td>
 
       </tr>
       </template>
@@ -89,33 +89,34 @@ import {bus} from '../main.js'
     },
     data: () => ({
       pagination: {},
+      headerindex:0,
       headers: [
-        { property: 3, text: ' Actions ', value: '' , sortable:false},
-        { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr'},
-        { property: 3, text: 'Alternative ID', value: 'altId' },
-        { property: 3,text: 'Pathogen', value: 'pathogen' },
-        { class:'dataSet',property: 3,text: 'Patient', value: 'patName' },
-        { property: 3,text: 'Geburtsdatum', value: 'birthdate' },
-        { property: 3,text: 'Eingang', value: 'entry', sortable: false },
-        { property: 3,text: 'Abnahme', value: 'abnahme' },
-        { property: 3,text: 'Einsender', value: 'sender' },
-        { property: 3,text: 'Station', value: 'station' },
-        { property: 3,text: 'Bearbeitung', value: 'editing' },
-        { property: 3,text: 'Material', value: 'material' },
-        { property: 3,text: 'NGS-Projekt', value: 'ngsProject' },
-        { property: 2,text: 'Datum DNA-Prep', value: 'dnaPrepDate' },
-        { property: 2,text: 'DNA-Konz (ng/ul)', value: 'dnaKonz' },
-        { property: 2,text: 'Visum DNA', value: 'dnaVisum' },
-        { property: 0,text: 'Run Nummer', value: 'runNr' },
-        { property: 0,text: 'NGS Nummer', value: 'ngsNr' },
-        { property: 0,text: 'Library Typ', value: 'libType' },
-        { property: 0,text: 'Datum Library', value: 'libDate' },
-        { property: 0,text: 'Visum Library', value: 'libVisum' },
-        { property: 0,text: 'Datum Sequenzierung', value: 'seqDate' },
-        { property: 0,text: 'NGS Gerät', value: 'ngsMachine' },
-        { property: 0,text: 'Visum Datenqualität', value: 'qualityVisum' },
-        { property: 0,text: 'Information alte Liste', value: 'infOldList' },
-        { property: 0,text: 'Public identifier', value: 'pubID' },
+        { property: 3, text: ' Actions ', value: '' , sortable:false, hide: false},
+        { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
+        { property: 3, text: 'Alternative ID', value: 'altId', hide: false },
+        { property: 3,text: 'Pathogen', value: 'pathogen' , hide: false},
+        { class:'dataSet',property: 3,text: 'Patient', value: 'patName' , hide: false},
+        { property: 3,text: 'Geburtsdatum', value: 'birthdate', hide: false },
+        { property: 3,text: 'Eingang', value: 'entry', sortable: false, hide: false },
+        { property: 3,text: 'Abnahme', value: 'abnahme', hide: false },
+        { property: 3,text: 'Einsender', value: 'sender', hide: false },
+        { property: 3,text: 'Station', value: 'station', hide: false },
+        { property: 3,text: 'Bearbeitung', value: 'editing', hide: false },
+        { property: 3,text: 'Material', value: 'material', hide: false },
+        { property: 3,text: 'NGS-Projekt', value: 'ngsProject', hide: false },
+        { property: 2,text: 'Datum DNA-Prep', value: 'dnaPrepDate', hide: false },
+        { property: 2,text: 'DNA-Konz (ng/ul)', value: 'dnaKonz', hide: false },
+        { property: 2,text: 'Visum DNA', value: 'dnaVisum', hide: false },
+        { property: 0,text: 'Run Nummer', value: 'runNr', hide: false },
+        { property: 0,text: 'NGS Nummer', value: 'ngsNr', hide: false },
+        { property: 0,text: 'Library Typ', value: 'libType', hide: false },
+        { property: 0,text: 'Datum Library', value: 'libDate', hide: false },
+        { property: 0,text: 'Visum Library', value: 'libVisum', hide: false },
+        { property: 0,text: 'Datum Sequenzierung', value: 'seqDate', hide: false },
+        { property: 0,text: 'NGS Gerät', value: 'ngsMachine' , hide: false},
+        { property: 0,text: 'Visum Datenqualität', value: 'qualityVisum' , hide: false},
+        { property: 0,text: 'Information alte Liste', value: 'infOldList' , hide: false},
+        { property: 0,text: 'Public identifier', value: 'pubID' , hide: false},
       ],
       search:'',
       tabs: null,
@@ -207,6 +208,10 @@ import {bus} from '../main.js'
       });
       bus.$on('searchChanged', (data) =>{
       this.search = data;
+      });
+      bus.$on('hideHeader', (data) =>{
+      this.headerindex = data;
+      this.headers[this.headerindex].hide = !this.headers[this.headerindex].hide
       });
     },
 
@@ -1425,7 +1430,7 @@ import {bus} from '../main.js'
       the state from the tab (which get provided by the Tableframe) and sets the tableheaders
       accordingly */
       renderHeader(){
-        return this.headers.filter(h => (h.property>= this.state))
+        return this.headers.filter(h => (h.property>= this.state)).filter(h => h.hide == false)
       },
       save () {
         this.snack = true
