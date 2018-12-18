@@ -3,9 +3,12 @@
     :headers="renderHeader()"
     :items="patients"
     class="elevation-1"
-    hide-actions
     item-key="bactNr"
     :search="search"
+    must-sort="priority"
+    hide-actions
+    v-bind:pagination.sync="pagination"
+
 
 
   >
@@ -46,29 +49,30 @@
                      </v-edit-dialog>
 </td> 
         <td v-if="!headers[2].hide" class="text-xs-center">{{ props.item.altId }}</td>
-        <td v-if="!headers[3].hide" class="text-xs-center">{{ props.item.pathogen }}</td>
-        <td v-if="!headers[4].hide" class="text-xs-center">{{ props.item.patName }}</td>
-        <td v-if="!headers[5].hide" class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td v-if="!headers[6].hide" class="text-xs-center">{{ props.item.entry }}</td>
-        <td v-if="!headers[7].hide" class="text-xs-center">{{ props.item.abnahme }}</td>
-        <td v-if="!headers[8].hide" class="text-xs-center">{{ props.item.sender }}</td>
-        <td v-if="!headers[9].hide" class="text-xs-center">{{ props.item.station }}</td>
-        <td v-if="!headers[10].hide" class="text-xs-center">{{ props.item.editing }}</td>
-        <td v-if="!headers[11].hide" class="text-xs-center">{{ props.item.material }}</td>
-        <td v-if="!headers[12].hide" class="text-xs-center">{{ props.item.ngsProject }}</td>
-        <td v-if="(state<=2) && (!headers[13].hide)" class="text-xs-center">{{ props.item.dnaPrepDate }}</td>
-        <td v-if="(state<=2) && (!headers[14].hide)" class="text-xs-center">{{ props.item.dnaKonz }}</td>
-        <td v-if="(state<=2) && (!headers[15].hide)" class="text-xs-center">{{ props.item.dnaVisum }}</td>
-        <td v-if="(state<=0) && (!headers[16].hide)" class="text-xs-center">{{ props.item.runNr }}</td>
-        <td v-if="(state<=0) && (!headers[17].hide)" class="text-xs-center">{{ props.item.ngsNr }}</td>
-        <td v-if="(state<=0) && (!headers[18].hide)" class="text-xs-center">{{ props.item.libType }}</td>
-        <td v-if="(state<=0) && (!headers[19].hide)" class="text-xs-center">{{ props.item.libDate }}</td>
-        <td v-if="(state<=0) && (!headers[20].hide)" class="text-xs-center">{{ props.item.libVisum }}</td>
-        <td v-if="(state<=0) && (!headers[21].hide)" class="text-xs-center">{{ props.item.seqDate }}</td>
-        <td v-if="(state<=0) && (!headers[22].hide)" class="text-xs-center">{{ props.item.ngsMachine }}</td>
-        <td v-if="(state<=0) && (!headers[23].hide)" class="text-xs-center">{{ props.item.seqVisum }}</td>
-        <td v-if="(state<=0) && (!headers[24].hide)" class="text-xs-center">{{ props.item.qualityVisum }}</td>
-        <td v-if="(state<=0) && (!headers[25].hide)" class="text-xs-center">{{ props.item.pubID }}</td>
+        <td v-if="!headers[3].hide" class="text-xs-center">{{ props.item.priority }}</td>
+        <td v-if="!headers[4].hide" class="text-xs-center">{{ props.item.pathogen }}</td>
+        <td v-if="!headers[5].hide" class="text-xs-center">{{ props.item.patName }}</td>
+        <td v-if="!headers[6].hide" class="text-xs-center">{{ props.item.birthdate }}</td>
+        <td v-if="!headers[7].hide" class="text-xs-center">{{ props.item.entry }}</td>
+        <td v-if="!headers[8].hide" class="text-xs-center">{{ props.item.abnahme }}</td>
+        <td v-if="!headers[9].hide" class="text-xs-center">{{ props.item.sender }}</td>
+        <td v-if="!headers[10].hide" class="text-xs-center">{{ props.item.station }}</td>
+        <td v-if="!headers[11].hide" class="text-xs-center">{{ props.item.editing }}</td>
+        <td v-if="!headers[12].hide" class="text-xs-center">{{ props.item.material }}</td>
+        <td v-if="!headers[13].hide" class="text-xs-center">{{ props.item.ngsProject }}</td>
+        <td v-if="(state<=2) && (!headers[14].hide)" class="text-xs-center">{{ props.item.dnaPrepDate }}</td>
+        <td v-if="(state<=2) && (!headers[15].hide)" class="text-xs-center">{{ props.item.dnaKonz }}</td>
+        <td v-if="(state<=2) && (!headers[16].hide)" class="text-xs-center">{{ props.item.dnaVisum }}</td>
+        <td v-if="(state<=0) && (!headers[17].hide)" class="text-xs-center">{{ props.item.runNr }}</td>
+        <td v-if="(state<=0) && (!headers[18].hide)" class="text-xs-center">{{ props.item.ngsNr }}</td>
+        <td v-if="(state<=0) && (!headers[19].hide)" class="text-xs-center">{{ props.item.libType }}</td>
+        <td v-if="(state<=0) && (!headers[20].hide)" class="text-xs-center">{{ props.item.libDate }}</td>
+        <td v-if="(state<=0) && (!headers[21].hide)" class="text-xs-center">{{ props.item.libVisum }}</td>
+        <td v-if="(state<=0) && (!headers[22].hide)" class="text-xs-center">{{ props.item.seqDate }}</td>
+        <td v-if="(state<=0) && (!headers[23].hide)" class="text-xs-center">{{ props.item.ngsMachine }}</td>
+        <td v-if="(state<=0) && (!headers[24].hide)" class="text-xs-center">{{ props.item.seqVisum }}</td>
+        <td v-if="(state<=0) && (!headers[25].hide)" class="text-xs-center">{{ props.item.qualityVisum }}</td>
+        <td v-if="(state<=0) && (!headers[26].hide)" class="text-xs-center">{{ props.item.pubID }}</td>
 
       </tr>
       </template>
@@ -88,12 +92,14 @@ import {bus} from '../main.js'
       state:Number
     },
     data: () => ({
-      pagination: {},
+
+      pagination : {'sortBy': 'priority', 'ascending': true, 'rowsPerPage': -1},
       headerindex:0,
       headers: [
         { property: 3, text: ' Actions ', value: '' , sortable:false, hide: false},
         { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
         { property: 3, text: 'Alternative ID', value: 'altId', hide: false },
+        { property: 3,text: 'Priority', value: 'priority' , hide: false},
         { property: 3,text: 'Pathogen', value: 'pathogen' , hide: false},
         { class:'dataSet',property: 3,text: 'Patient', value: 'patName' , hide: false},
         { property: 3,text: 'Geburtsdatum', value: 'birthdate', hide: false },
@@ -126,6 +132,7 @@ import {bus} from '../main.js'
         bactNr: '',
         infOldList: '',
         altId: '',
+        priority:'',
         pathogen: '',
         patName: '',
         birthdate: '',
@@ -153,6 +160,7 @@ import {bus} from '../main.js'
         bactNr: '',
         infOldList: '',
         altId: '',
+        priority:'',
         pathogen: '',
         patName: '',
         birthdate: '',
@@ -223,6 +231,7 @@ import {bus} from '../main.js'
         bactNr: '31251-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'aciint',
         patName: 'Walter Reyes',
         birthdate: '12.03.1950',
@@ -250,6 +259,7 @@ import {bus} from '../main.js'
         bactNr: '301481-18',
         infOldList: '2342342',
         altId: 'ID-001',
+        priority:'A',
         pathogen: 'aciint',
         patName: 'Ralph Fenstermacher',
         birthdate: '22.08.1991',
@@ -277,6 +287,7 @@ import {bus} from '../main.js'
         bactNr: '101481-18',
         infOldList: '',
         altId: 'ID-004',
+        priority:'A',
         pathogen: 'acinnb',
         patName: 'Julia Himmler',
         birthdate: '17.10.1956',
@@ -304,6 +315,7 @@ import {bus} from '../main.js'
         bactNr: '101431-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'actori',
         patName: 'Ines Weiss',
         birthdate: '17.10.1976',
@@ -331,6 +343,7 @@ import {bus} from '../main.js'
         bactNr: '101435-18',
         infOldList: '',
         altId: 'ID-056',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Jonas Waechter',
         birthdate: '17.10.1986',
@@ -358,6 +371,7 @@ import {bus} from '../main.js'
         bactNr: '151497-18',
         infOldList: '',
         altId: 'ID-784',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Patrick Ostermann',
         birthdate: '10.02.1989',
@@ -385,6 +399,7 @@ import {bus} from '../main.js'
         bactNr: '127947-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'actori',
         patName: 'Lena Kluge',
         birthdate: '15.06.1941',
@@ -412,6 +427,7 @@ import {bus} from '../main.js'
         bactNr: '111497-18',
         infOldList: '',
         altId: 'DA23d34',
+        priority:'A',
         pathogen: 'pkt',
         patName: 'Benjamin Grunewald',
         birthdate: '13.02.1973',
@@ -439,6 +455,7 @@ import {bus} from '../main.js'
         bactNr: '159027-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'strebg',
         patName: 'Swen Mauer',
         birthdate: '28.04.1969',
@@ -466,6 +483,7 @@ import {bus} from '../main.js'
         bactNr: '127347-17',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'clodif',
         patName: 'Thomas Shuster',
         birthdate: '28.04.1973',
@@ -493,6 +511,7 @@ import {bus} from '../main.js'
         bactNr: '168497-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'strenh',
         patName: 'Manuela Dörbier',
         birthdate: '28.04.1989',
@@ -520,6 +539,7 @@ import {bus} from '../main.js'
         bactNr: '311281-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'aciint',
         patName: 'Christian Schulz',
         birthdate: '12.06.1950',
@@ -547,6 +567,7 @@ import {bus} from '../main.js'
         bactNr: '601481-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'ecoli',
         patName: 'Mike Schaefer',
         birthdate: '22.08.1991',
@@ -574,6 +595,7 @@ import {bus} from '../main.js'
         bactNr: '121481-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'ecoli',
         patName: 'Dieter Frueh',
         birthdate: '17.10.1956',
@@ -601,6 +623,7 @@ import {bus} from '../main.js'
         bactNr: '101439-17',
         infOldList: 'NG30223',
         altId: 'ID-004',
+        priority:'A',
         pathogen: 'stremo',
         patName: 'Tom Papst',
         birthdate: '17.10.1982',
@@ -628,6 +651,7 @@ import {bus} from '../main.js'
         bactNr: '191435-18',
         infOldList: '',
         altId: 'NGS-156',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Thorsten Muench',
         birthdate: '17.10.1986',
@@ -655,6 +679,7 @@ import {bus} from '../main.js'
         bactNr: '168397-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'stregc',
         patName: 'Sandra Fink',
         birthdate: '10.02.1989',
@@ -682,6 +707,7 @@ import {bus} from '../main.js'
         bactNr: '101457-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'acihae',
         patName: 'Barbara Eisenhower',
         birthdate: '15.06.1963',
@@ -709,6 +735,7 @@ import {bus} from '../main.js'
         bactNr: '129497-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'pkt',
         patName: 'Peter Abend',
         birthdate: '13.02.1973',
@@ -736,6 +763,7 @@ import {bus} from '../main.js'
         bactNr: '978597-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'ecoli',
         patName: 'Manuela Fuchs',
         birthdate: '28.04.1969',
@@ -763,6 +791,7 @@ import {bus} from '../main.js'
         bactNr: '178991-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'clodif',
         patName: 'Ursula Fried',
         birthdate: '28.04.1973',
@@ -790,6 +819,7 @@ import {bus} from '../main.js'
         bactNr: '683057-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'strenh',
         patName: 'Anja Möller',
         birthdate: '28.04.1989',
@@ -817,6 +847,7 @@ import {bus} from '../main.js'
         bactNr: '32252-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'stregp',
         patName: 'Tim Schäfer',
         birthdate: '12.03.1950',
@@ -844,6 +875,7 @@ import {bus} from '../main.js'
         bactNr: '911481-18',
         infOldList: '2342342',
         altId: 'ID-001',
+        priority:'B',
         pathogen: 'stremo',
         patName: 'Robert Ostermann',
         birthdate: '22.08.1991',
@@ -871,6 +903,7 @@ import {bus} from '../main.js'
         bactNr: '100001-18',
         infOldList: '',
         altId: 'ID-004',
+        priority:'B',
         pathogen: 'acinnb',
         patName: 'Julia Baader',
         birthdate: '17.10.1956',
@@ -898,6 +931,7 @@ import {bus} from '../main.js'
         bactNr: '113431-18',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'actori',
         patName: 'Ursula Propst',
         birthdate: '17.10.1976',
@@ -925,6 +959,7 @@ import {bus} from '../main.js'
         bactNr: '149765-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Jürgen Vogel',
         birthdate: '17.10.1986',
@@ -952,6 +987,7 @@ import {bus} from '../main.js'
         bactNr: '13957-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Susanne Klein',
         birthdate: '10.02.1989',
@@ -979,6 +1015,7 @@ import {bus} from '../main.js'
         bactNr: '125977-18',
         infOldList: '',
         altId: '',
+        priority:'A',
         pathogen: 'actori',
         patName: 'Lukas Hofmann',
         birthdate: '15.06.1941',
@@ -1006,6 +1043,7 @@ import {bus} from '../main.js'
         bactNr: '125397-18',
         infOldList: '',
         altId: 'DA23d34',
+        priority:'A',
         pathogen: 'pkt',
         patName: 'Eric Schuster',
         birthdate: '13.02.1973',
@@ -1033,6 +1071,7 @@ import {bus} from '../main.js'
         bactNr: '159927-17',
         infOldList: 'NG30223',
         altId: 'ID-004',
+        priority:'C',
         pathogen: 'strebg',
         patName: 'Susanne Dresdner',
         birthdate: '28.04.1969',
@@ -1060,6 +1099,7 @@ import {bus} from '../main.js'
         bactNr: '127237-17',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'clodif',
         patName: 'Martin Kuhn',
         birthdate: '28.04.1973',
@@ -1087,6 +1127,7 @@ import {bus} from '../main.js'
         bactNr: '168427-18',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'strenh',
         patName: 'Kathrin Bauer',
         birthdate: '28.04.1989',
@@ -1114,6 +1155,7 @@ import {bus} from '../main.js'
         bactNr: '583958-18',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'aciint',
         patName: 'Jens Konig',
         birthdate: '12.06.1950',
@@ -1141,6 +1183,7 @@ import {bus} from '../main.js'
         bactNr: '601401-18',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'ecoli',
         patName: 'Lukas Pabst',
         birthdate: '22.08.1991',
@@ -1168,6 +1211,7 @@ import {bus} from '../main.js'
         bactNr: '126881-18',
         infOldList: '',
         altId: 'ID-074',
+        priority:'C',
         pathogen: 'ecoli',
         patName: 'Lucas Gloeckner',
         birthdate: '17.10.1956',
@@ -1195,6 +1239,7 @@ import {bus} from '../main.js'
         bactNr: '101959-17',
         infOldList: 'NG30223',
         altId: 'ID404',
+        priority:'C',
         pathogen: 'stremo',
         patName: 'Dominik Faerber',
         birthdate: '17.10.1982',
@@ -1249,6 +1294,7 @@ import {bus} from '../main.js'
         bactNr: '168399-18',
         infOldList: 'NG30223',
         altId: '',
+        priority:'C',
         pathogen: 'stregc',
         patName: 'Simone Schultheiss',
         birthdate: '10.02.1989',
@@ -1276,6 +1322,7 @@ import {bus} from '../main.js'
         bactNr: '106457-18',
         infOldList: 'NG30223',
         altId: 'ID-004',
+        priority:'C',
         pathogen: 'acihae',
         patName: 'Kevin Busch',
         birthdate: '15.06.1963',
@@ -1303,6 +1350,7 @@ import {bus} from '../main.js'
         bactNr: '125617-18',
         infOldList: 'DA23d34',
         altId: 'DA23d34',
+        priority:'C',
         pathogen: 'pkt',
         patName: 'Agatha Ásgeirsdóttir',
         birthdate: '13.02.1973',
@@ -1330,6 +1378,7 @@ import {bus} from '../main.js'
         bactNr: '972597-18',
         infOldList: 'NG30223',
         altId: 'ID-004',
+        priority:'C',
         pathogen: 'ecoli',
         patName: 'Hrefna Guðnadóttir',
         birthdate: '28.04.1969',
@@ -1357,6 +1406,7 @@ import {bus} from '../main.js'
         bactNr: '178911-18',
         infOldList: '',
         altId: '',
+        priority:'C',
         pathogen: 'clodif',
         patName: 'Thibaut Audibert',
         birthdate: '28.04.1973',
@@ -1384,6 +1434,7 @@ import {bus} from '../main.js'
         bactNr: '683157-18',
         infOldList: '',
         altId: '',
+        priority:'B',
         pathogen: 'strenh',
         patName: 'Alexandrin Reault',
         birthdate: '28.04.1989',

@@ -24,14 +24,6 @@
             <v-list-tile-title>Change Theme</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="logout()">
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile-content>
-          </v-list-tile>
       
           <v-list-group
             prepend-icon="remove_red_eye"
@@ -62,6 +54,24 @@
             </v-list-tile>
           </v-list-group>
 
+          <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>group</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>User management</v-list-tile-title>
+          </v-list-tile-content>
+          </v-list-tile>
+
+        <v-list-tile @click="logout()">
+          <v-list-tile-action>
+            <v-icon>settings</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile-content>
+          </v-list-tile>
+
       </v-list>
   </v-card>
 </template>
@@ -76,29 +86,30 @@ import {bus} from '../main.js'
       headers:[
         {  index:1, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
         {  index:2, text: 'Alternative ID', value: 'altId', hide: false },
-        {  index:3, text: 'Pathogen', value: 'pathogen' , hide: false},
-        {  index:4, text: 'Patient', value: 'patName' , hide: false},
-        {  index:5, text: 'Geburtsdatum', value: 'birthdate', hide: false },
-        {  index:6, text: 'Eingang', value: 'entry', sortable: false, hide: false },
-        {  index:7, text: 'Abnahme', value: 'abnahme', hide: false },
-        {  index:8, text: 'Einsender', value: 'sender', hide: false },
-        {  index:9, text: 'Station', value: 'station', hide: false },
-        {  index:10, text: 'Bearbeitung', value: 'editing', hide: false },
-        {  index:11, text: 'Material', value: 'material', hide: false },
-        {  index:12, text: 'NGS-Projekt', value: 'ngsProject', hide: false },
-        {  index:13, text: 'Datum DNA-Prep', value: 'dnaPrepDate', hide: false },
-        {  index:14, text: 'DNA-Konz (ng/ul)', value: 'dnaKonz', hide: false },
-        {  index:15, text: 'Visum DNA', value: 'dnaVisum', hide: false },
-        {  index:16, text: 'Run Nummer', value: 'runNr', hide: false },
-        {  index:17, text: 'NGS Nummer', value: 'ngsNr', hide: false },
-        {  index:18, text: 'Library Typ', value: 'libType', hide: false },
-        {  index:19, text: 'Datum Library', value: 'libDate', hide: false },
-        {  index:20, text: 'Visum Library', value: 'libVisum', hide: false },
-        {  index:21, text: 'Datum Sequenzierung', value: 'seqDate', hide: false },
-        {  index:22, text: 'NGS Gerät', value: 'ngsMachine' , hide: false},
-        {  index:23, text: 'Visum Datenqualität', value: 'qualityVisum' , hide: false},
-        {  index:24, text: 'Information alte Liste', value: 'infOldList' , hide: false},
-        {  index:25, text: 'Public identifier', value: 'pubID' , hide: false},
+        {  index:3, text: 'Priority', value: 'priority', hide: false },
+        {  index:4, text: 'Pathogen', value: 'pathogen' , hide: false},
+        {  index:5, text: 'Patient', value: 'patName' , hide: false},
+        {  index:6, text: 'Geburtsdatum', value: 'birthdate', hide: false },
+        {  index:7, text: 'Eingang', value: 'entry', sortable: false, hide: false },
+        {  index:8, text: 'Abnahme', value: 'abnahme', hide: false },
+        {  index:9, text: 'Einsender', value: 'sender', hide: false },
+        {  index:10, text: 'Station', value: 'station', hide: false },
+        {  index:11, text: 'Bearbeitung', value: 'editing', hide: false },
+        {  index:12, text: 'Material', value: 'material', hide: false },
+        {  index:13, text: 'NGS-Projekt', value: 'ngsProject', hide: false },
+        {  index:14, text: 'Datum DNA-Prep', value: 'dnaPrepDate', hide: false },
+        {  index:15, text: 'DNA-Konz (ng/ul)', value: 'dnaKonz', hide: false },
+        {  index:16, text: 'Visum DNA', value: 'dnaVisum', hide: false },
+        {  index:17, text: 'Run Nummer', value: 'runNr', hide: false },
+        {  index:18, text: 'NGS Nummer', value: 'ngsNr', hide: false },
+        {  index:19, text: 'Library Typ', value: 'libType', hide: false },
+        {  index:20, text: 'Datum Library', value: 'libDate', hide: false },
+        {  index:21, text: 'Visum Library', value: 'libVisum', hide: false },
+        {  index:22, text: 'Datum Sequenzierung', value: 'seqDate', hide: false },
+        {  index:23, text: 'NGS Gerät', value: 'ngsMachine' , hide: false},
+        {  index:24, text: 'Visum Datenqualität', value: 'qualityVisum' , hide: false},
+        {  index:25, text: 'Information alte Liste', value: 'infOldList' , hide: false},
+        {  index:26, text: 'Public identifier', value: 'pubID' , hide: false},
       ]
       }
     ),
