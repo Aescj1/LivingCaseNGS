@@ -7,43 +7,49 @@
             <v-container grid-list-md>
               <v-layout wrap>
                     <v-flex> 
-                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer"></v-text-field>
+                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer*" required></v-text-field>
+                </v-flex>
+                <v-flex> 
+                  <v-text-field v-model="editedPatient.wiederholung" label="Wiederholung*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.altId" label="alternative ID"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.priority" label="Priority"></v-text-field>
+                  <v-text-field v-model="editedPatient.priority" label="Priority*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)"></v-text-field>
+                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.patName" label="Patientenname"></v-text-field>
+                  <v-text-field v-model="editedPatient.lastName" label="lastName*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum"></v-text-field>
+                  <v-text-field v-model="editedPatient.firstName" label="fistName*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.entry" label="Eingang"></v-text-field>
+                  <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum*" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedPatient.entry" label="Eingang*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.abnahme" label="Abnahme"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.sender" label="Einsender"></v-text-field>
+                  <v-text-field v-model="editedPatient.sender" label="Einsender*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.station" label="Station"></v-text-field>
+                  <v-text-field v-model="editedPatient.station" label="Station*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.editing" label="Bearbeitungsdatum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.material" label="Material"></v-text-field>
+                  <v-text-field v-model="editedPatient.material" label="Material*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsProject" label="NGS - Prokect"></v-text-field>
+                  <v-text-field v-model="editedPatient.ngsProject" label="NGS - Projekt"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.dnaPrepDate" label="DNA Vorbereitungsdatum"></v-text-field>
@@ -82,12 +88,12 @@
                   <v-text-field v-model="editedPatient.infOldList" label="Information Alteliste"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pubID" label="Public ID"></v-text-field>
+                  <v-text-field v-model="editedPatient.pubID" label="Public ID*" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-card-actions>
                     <v-btn color="blue darken-1"  @click="close">Cancel</v-btn>
-                    <v-btn color="blue darken-1"  @click="save">Save</v-btn>
+                    <v-btn color="blue darken-1"  @click="onSubmit">Save</v-btn>
                 </v-card-actions>
               </v-layout>
             </v-container>
@@ -99,6 +105,7 @@
 
 <script>
   import {bus} from '../main.js'    
+  import axios from 'axios'
 
 
 export default{
@@ -115,15 +122,18 @@ export default{
          });
     },
     data:() =>({
+        patId:'',
         editedIndex: -1,
         dialog: false,
         editedPatient: {
         bactNr: '',
+        wiederholung:'',
         infOldList: '',
         altId: '',
         priority:'',
         pathogen: '',
-        patName: '',
+        lastName: '',
+        firstName:'',
         birthdate: '',
         entry: '',
         abnahme: '',
@@ -155,7 +165,53 @@ export default{
           this.editedIndex = -1
         }, 300)
       },
-
+      onSubmit(){
+        const newPatient = {
+          firstName: this.editedPatient.firstName,
+          lastName: this.editedPatient.lastName,
+          birthdate:this.editedPatient.birthdate
+        }
+        
+        axios.post('http://147.87.118.201:3000/api/TblPatients', newPatient)
+          .then(ack1 =>{
+            axios.get('http://147.87.118.201:3000/api/TblPatients/findOne?filter={"where":{"and":[{"firstName":"'+this.editedPatient.firstName+'"},{"lastName":"'+this.editedPatient.lastName+'"}]}}')
+            .then(res1 => {
+              console.log(res1)
+              this.patId = res1.data.patientId;
+              const newProbe ={
+                patientId: this.patId,
+                einsender: this.editedPatient.sender,
+                station: this.editedPatient.station,
+                eingangDatum: this.editedPatient.entry,
+                material: this.editedPatient.material
+              } 
+            axios.post('http://147.87.118.201:3000/api/TblProbeEingangs', newProbe)
+                .then(ack2 =>{
+                  axios.get('http://147.87.118.201:3000/api/TblProbeEingangs/findOne?filter={"where":{"patientId":"'+this.patId+'"}}')
+                  .then(res2 =>{
+                    console.log(res2)
+                    const newNgs ={
+                      probeId:res2.data.probeId,
+                      bactNr: this.editedPatient.bactNr,
+                      wiederholung: this.editedPatient.wiederholung,
+                      pathogenId: this.editedPatient.pathogen,
+                      publicIdentifier: this.editedPatient.pubID,
+                      priority: this.editedPatient.priority
+                    } 
+                    axios.post('http://147.87.118.201:3000/api/TblNgs', newNgs)
+                    .then(ack3=>{
+                      console.log(ack3)
+                    })
+                  })
+                })
+            })
+          })
+          .catch(error => console.log(error))
+          
+        this.close();
+        this.save();
+        },
+      
       // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.
       save () {
         if (this.editedIndex > -1) {

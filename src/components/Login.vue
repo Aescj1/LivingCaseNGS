@@ -38,7 +38,7 @@
                         >
                         submit
                         </v-btn>
-                        <v-btn @click="clear">clear</v-btn>
+                        <v-btn @click="clear()">clear</v-btn>
                         </div>
                     </v-form>
                     </form>
@@ -63,15 +63,16 @@
 
     methods: {
       submit () {
-        if (this.$refs.form.validate()) {
+        if ((this.$refs.form.validate())&& (this.name == 'User')) {
           // Native form submission is not yet supported
           this.$router.push('/layout')
           }
-        }
-      },
-      clear () {
+        },
+        clear () {
         this.$refs.form.reset()
       }
+      },
+
     
   }
 </script>
