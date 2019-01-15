@@ -4,49 +4,51 @@
           <v-card-title>Dataset Formular </v-card-title>
 
           <v-card-text>
+            <form>
+            <v-form>
             <v-container grid-list-md>
               <v-layout wrap>
-                    <v-flex> 
-                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer*" required></v-text-field>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
-                <v-flex> 
-                  <v-text-field v-model="editedPatient.wiederholung" label="Wiederholung*" required></v-text-field>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedPatient.wiederholung" label="Wiederholung*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.altId" label="alternative ID"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.priority" label="Priority*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.priority" label="Priority*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.lastName" label="lastName*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.lastName" label="lastName*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.firstName" label="fistName*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.firstName" label="fistName*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.entry" label="Eingang*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.entry" label="Eingang*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.abnahme" label="Abnahme"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.sender" label="Einsender*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.sender" label="Einsender*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.station" label="Station*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.station" label="Station*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.editing" label="Bearbeitungsdatum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.material" label="Material*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.material" label="Material*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.ngsProject" label="NGS - Projekt"></v-text-field>
@@ -88,15 +90,18 @@
                   <v-text-field v-model="editedPatient.infOldList" label="Information Alteliste"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pubID" label="Public ID*" required></v-text-field>
+                  <v-text-field v-model="editedPatient.pubID" label="Public ID*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-card-actions>
                     <v-btn color="blue darken-1"  @click="close">Cancel</v-btn>
                     <v-btn color="blue darken-1"  @click="onSubmit">Save</v-btn>
                 </v-card-actions>
+
               </v-layout>
             </v-container>
+          </v-form>
+           </form>
           </v-card-text>
 
         </v-card>
@@ -122,6 +127,9 @@ export default{
          });
     },
     data:() =>({
+      nameRules: [
+        v => !!v || 'Data is required'
+      ],
         patId:'',
         editedIndex: -1,
         dialog: false,
@@ -166,6 +174,7 @@ export default{
         }, 300)
       },
       onSubmit(){
+        if (this.$refs.form.validate()){
         const newPatient = {
           firstName: this.editedPatient.firstName,
           lastName: this.editedPatient.lastName,
@@ -210,7 +219,8 @@ export default{
           
         this.close();
         this.save();
-        },
+        }
+      },
       
       // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.
       save () {

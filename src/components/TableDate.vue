@@ -196,7 +196,7 @@ import axios from 'axios';
         { class:'dataSet',property: 3,text: 'Patient', value: 'lastName' , hide: false},
         { property: 3,text: 'Geburtsdatum', value: 'birthdate', hide: false },
         { property: 3,text: 'Eingang', value: 'entry', sortable: false, hide: false },
-        { property: 3,text: 'abnahmeDatum', value: 'abnahmeDatum', hide: false },
+        { property: 3,text: 'Abnahmedatum', value: 'abnahmeDatum', hide: false },
         { property: 3,text: 'Einsender', value: 'einsender', hide: false },
         { property: 3,text: 'Station', value: 'station', hide: false },
         { property: 3,text: 'Bearbeitung', value: 'bearbeitung', hide: false },
