@@ -21,7 +21,7 @@
                   <v-text-field v-model="editedPatient.priority" label="Priority*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*"  :rules="nameRules" required></v-text-field>
+                  <v-text-field v-model="editedPatient.abbreviation" label="Pathogen (g)*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.lastName" label="lastName*"  :rules="nameRules" required></v-text-field>
@@ -36,16 +36,16 @@
                   <v-text-field v-model="editedPatient.entry" label="Eingang*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.abnahme" label="Abnahme"></v-text-field>
+                  <v-text-field v-model="editedPatient.abnahmeDatum" label="Abnahme"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.sender" label="Einsender*"  :rules="nameRules" required></v-text-field>
+                  <v-text-field v-model="editedPatient.einsender" label="Einsender*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.station" label="Station*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.editing" label="Bearbeitungsdatum"></v-text-field>
+                  <v-text-field v-model="editedPatient.bearbeitung" label="Bearbeitungsdatum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.material" label="Material*"  :rules="nameRules" required></v-text-field>
@@ -54,43 +54,43 @@
                   <v-text-field v-model="editedPatient.ngsProject" label="NGS - Projekt"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaPrepDate" label="DNA Vorbereitungsdatum"></v-text-field>
+                  <v-text-field v-model="editedPatient.datumPrep" label="DNA Vorbereitungsdatum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaKonz" label="DNA Konzentration"></v-text-field>
+                  <v-text-field v-model="editedPatient.konzentration" label="DNA Konzentration"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaVisum" label="DNA Visum"></v-text-field>
+                  <v-text-field v-model="editedPatient.visumDna" label="DNA Visum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.runNr" label="Run NR"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsNr" label="NGS Nummer"></v-text-field>
+                  <v-text-field v-model="editedPatient.runProbeNr" label="NGS Nummer"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libType" label="Librarytype"></v-text-field>
+                  <v-text-field v-model="editedPatient.libraryTyp" label="Librarytype"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libDate" label="Library date"></v-text-field>
+                  <v-text-field v-model="editedPatient.libraryDatum" label="Library date"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libVisum" label="Library Visum"></v-text-field>
+                  <v-text-field v-model="editedPatient.libraryVisum" label="Library Visum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.seqDate" label="Sequenzierungs Datum"></v-text-field>
+                  <v-text-field v-model="editedPatient.seqDatum" label="Sequenzierungs Datum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsMachine" label="NGS Maschine"></v-text-field>
+                  <v-text-field v-model="editedPatient.modalität" label="NGS Maschine"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.qualityVisum" label="Qualitäts Visum"></v-text-field>
+                  <v-text-field v-model="editedPatient.datenqualVisum" label="Qualitäts Visum"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedPatient.infOldList" label="Information Alteliste"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pubID" label="Public ID*"  :rules="nameRules" required></v-text-field>
+                  <v-text-field v-model="editedPatient.publicIdentifier" label="Public ID*"  :rules="nameRules" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-card-actions>
@@ -133,35 +133,36 @@ export default{
         patId:'',
         editedIndex: -1,
         dialog: false,
-        editedPatient: {
+      editedPatient: {
         bactNr: '',
         wiederholung:'',
         infOldList: '',
         altId: '',
         priority:'',
-        pathogen: '',
+        abbreviation: '',
         lastName: '',
         firstName:'',
+        patName: '',
         birthdate: '',
         entry: '',
-        abnahme: '',
-        sender: '',
+        abnahmeDatum: '',
+        einsender: '',
         station: '',
-        editing: '',
+        bearbeitung: '',
         material: '',
         ngsProject: '',
-        dnaPrepDate: '',
-        dnaKonz: '',
-        dnaVisum: '',
+        datumPrep: '',
+        konzentration: '',
+        visumDna: '',
         runNr: '',
-        ngsNr: '',
-        libType: '',
-        libDate: '',
-        libVisum: '',
-        seqDate: '',
-        ngsMachine: '',
-        qualityVisum: '',
-        pubID: '',
+        runProbeNr: '',
+        libraryTyp: '',
+        libraryDatum: '',
+        libraryVisum: '',
+        seqDatum: '',
+        modalität: '',
+        datenqualVisum: '',
+        publicIdentifier: '',
       },
       
     }),
@@ -174,7 +175,6 @@ export default{
         }, 300)
       },
       onSubmit(){
-        if (this.$refs.form.validate()){
         const newPatient = {
           firstName: this.editedPatient.firstName,
           lastName: this.editedPatient.lastName,
@@ -185,11 +185,10 @@ export default{
           .then(ack1 =>{
             axios.get('http://147.87.118.201:3000/api/TblPatients/findOne?filter={"where":{"and":[{"firstName":"'+this.editedPatient.firstName+'"},{"lastName":"'+this.editedPatient.lastName+'"}]}}')
             .then(res1 => {
-              console.log(res1)
               this.patId = res1.data.patientId;
               const newProbe ={
                 patientId: this.patId,
-                einsender: this.editedPatient.sender,
+                einsender: this.editedPatient.einsender,
                 station: this.editedPatient.station,
                 eingangDatum: this.editedPatient.entry,
                 material: this.editedPatient.material
@@ -198,29 +197,26 @@ export default{
                 .then(ack2 =>{
                   axios.get('http://147.87.118.201:3000/api/TblProbeEingangs/findOne?filter={"where":{"patientId":"'+this.patId+'"}}')
                   .then(res2 =>{
-                    console.log(res2)
                     const newNgs ={
                       probeId:res2.data.probeId,
                       bactNr: this.editedPatient.bactNr,
                       wiederholung: this.editedPatient.wiederholung,
-                      pathogenId: this.editedPatient.pathogen,
-                      publicIdentifier: this.editedPatient.pubID,
+                      pathogenId: this.editedPatient.abbreviation,
+                      publicIdentifier: this.editedPatient.publicIdentifier,
                       priority: this.editedPatient.priority
                     } 
                     axios.post('http://147.87.118.201:3000/api/TblNgs', newNgs)
                     .then(ack3=>{
-                      console.log(ack3)
                     })
                   })
                 })
             })
           })
-          .catch(error => console.log(error))
-          
         this.close();
         this.save();
-        }
-      },
+        console.log("submitted");
+        },
+     
       
       // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.
       save () {
@@ -235,6 +231,7 @@ export default{
         }
         this.close()
       }
+       },
     }
-}
+
 </script>

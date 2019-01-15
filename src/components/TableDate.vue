@@ -222,6 +222,7 @@ import axios from 'axios';
       editedIndex: -1,
       editedPatient: {
         bactNr: '',
+        wiederholung:'',
         infOldList: '',
         altId: '',
         priority:'',
